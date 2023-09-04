@@ -491,12 +491,14 @@ attachaside(Client *c) {
 void
 attachbottom(Client *c)
 {
-	Client **tc;
+	Client *below = c->mon->clients;
+	for (; below && below->next; below = below->next);
 	c->next = NULL;
-	for (tc = &c->mon->clients; *tc; tc = &(*tc)->next);
-	*tc = c;
+	if (below)
+		below->next = c;
+	else
+		c->mon->clients = c;
 }
-
 void
 attachstack(Client *c)
 {
@@ -1737,7 +1739,6 @@ sendmon(Client *c, Monitor *m)
 	detachstack(c);
 	c->mon = m;
 	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
-	attachaside(c);
 	attachbottom(c);
 	attachstack(c);
 	focus(NULL);
@@ -2338,7 +2339,6 @@ updategeom(void)
 				m->clients = c->next;
 				detachstack(c);
 				c->mon = mons;
-				attachaside(c);
 				attachbottom(c);
 				attachstack(c);
 			}
