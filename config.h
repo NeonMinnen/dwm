@@ -102,6 +102,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,		               	XK_s,	   togglesticky,   {0} },
 	{ MODKEY,                       XK_b,      spawn,          SHCMD("firefox") },
 	{ MODKEY,                       XK_f,      spawn,          SHCMD("thunar") },
 	{ MODKEY,			            XK_minus,  spawn,		   SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -44 $(pidof dwmblocks)") },
