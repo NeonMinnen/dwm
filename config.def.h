@@ -58,20 +58,18 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "[M]",      monocle },
-	{ "[][]=",    tilewide },
-	{ "[@]",      spiral },
-	{ "[\\]",     dwindle },
-	{ "H[]",      deck },
-	{ "TTT",      bstack },
-	{ "===",      bstackhoriz },
+	{ "[]=",      tile },    /* Default: Master on left, slaves on right */
+	{ "[M]",      monocle }, /* All windows on top of eachother */
+	{ "[][]=",    tilewide }, /* 3 wide for ultrawide */
+	{ "[@]",      spiral }, /* Fibonacci spiral */
+	{ "[\\]",     dwindle }, /* Decreasing in size right and leftward */
+	{ "H[]",      deck }, /* Master on left, slaves in monocle-like mode on right */
 	{ "HHH",      grid },
 	{ "###",      nrowgrid },
 	{ "---",      horizgrid },
 	{ ":::",      gaplessgrid },
-	{ "|M|",      centeredmaster },
-	{ ">M>",      centeredfloatingmaster },
+	{ "|M|",      centeredmaster }, /* Master in middle, slaves on sides */
+	{ ">M>",      centeredfloatingmaster }, /* Same but master floats */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ NULL,       NULL },
 };
@@ -110,12 +108,16 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_z,      incrgaps,       {.i = +3 } },
 	{ MODKEY,                       XK_x,      incrgaps,       {.i = -3 } },
+	{ MODKEY,			            XK_g,	   togglegaps,	   {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_c,      killclient,     {0} },
+	{ MODKEY|ControlMask,		    XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} }, /* tile */
 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[1]} }, /* floating */
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} }, /* monocle  */
 	{ MODKEY,                       XK_w,      setlayout,      {.v = &layouts[3]} }, /* tilewide */ 
+	{ MODKEY|ShiftMask,             XK_g,      setlayout,      {.v = &layouts[6]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
